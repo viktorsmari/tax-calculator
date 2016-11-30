@@ -10,6 +10,9 @@
     <body>
         <div class="container" id="app3">
             <div class="row">
+                <div class="col-md-12 my-2">
+                    <h2>Tax calculator</h2>
+                </div>
                 <div class="col-md-6 col-xs-6">
                     <label for="original_amount">Total amount</label>
                     <div class="input-group input-group">
@@ -19,21 +22,26 @@
                 </div> <!-- end row -->
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <label for="personal_discount">Personal discount, yearly</label>
+                <div class="col-md-6 mt-1">
+                    <label for="personal_discount">Personal discount, yearly (not yet implemented)</label>
                     <div class="input-group input-group">
                         <span class="input-group-addon">Kr</span>
                         <input type="number" class="form-control" v-model="personalDiscountYear" placeholder="Original Amount" id="original_amount" />
                     </div>
                 </div>
 
-                <div class="col-md-12 mt-2">
+            </div>
+            <div class="row">
+                <div class="col-md-6 mt-2">
                     <input type="range" min="0" max="100" v-model="step1" />
                     <p>Step 1 {{ step1 }}% ({{ step1_limit }}):  = {{ stepCalc1 }}</p>
+                    <hr />
                     <input type="range" min="0" max="100" v-model="step2" />
                     <p>Step 2 {{ step2 }}% ({{ step2_limit }}):= {{ stepCalc2 }}</p>
+                    <hr />
                     <input type="range" min="0" max="100" v-model="step3" />
                     <p>Step 3: {{ step3 }}% = {{ stepCalc3 }}</p>
+                    <hr />
                 </div>
 
 
