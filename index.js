@@ -1,6 +1,8 @@
 var app3 = new Vue({
   el: '#app3',
   data: {
+    test: "testing",
+    numb: 1,
     step1: 37.13,
     step2: 38.35,
     step3: 46.25,
@@ -14,18 +16,18 @@ var app3 = new Vue({
     stepCalc1: function(){
       // Af ollu undir 336.035
       if (this.totalSalary <= this.step1_limit) {
-        return this.step1 / 100 * (this.totalSalary) ;
+        return Math.round(this.step1 / 100 * (this.totalSalary)) ;
       } else {
-        return this.step1 / 100 * this.step1_limit;
+        return Math.round(this.step1 / 100 * this.step1_limit);
       }
     },
     stepCalc2: function(){
       // af ollu fra 336.036 til 836.990
       if (this.totalSalary > this.step1_limit) {
         if (this.totalSalary < this.step2_limit){
-          return this.step2 / 100 * (this.totalSalary - this.step1_limit);
+          return Math.round(this.step2 / 100 * (this.totalSalary - this.step1_limit));
         } else {
-          return this.step2 / 100 * (this.step2_limit - this.step1_limit);
+          return Math.round(this.step2 / 100 * (this.step2_limit - this.step1_limit));
         }
       } else {
         return 0;
@@ -34,7 +36,7 @@ var app3 = new Vue({
     stepCalc3: function(){
       // af ollu yfir 836.990
       if (this.totalSalary > this.step2_limit) {
-        return this.step3 / 100 * (this.totalSalary - this.step2_limit);
+        return Math.round(this.step3 / 100 * (this.totalSalary - this.step2_limit));
       } else {
         return 0;
       }

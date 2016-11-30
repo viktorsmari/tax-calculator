@@ -29,9 +29,9 @@
 
                 <div class="col-md-12 mt-2">
                     <input type="range" min="0" max="100" v-model="step1" />
-                    <p>Step 1: {{ step1 }}% = {{ stepCalc1 }}</p>
+                    <p>Step 1 {{ step1 }}% ({{ step1_limit }}):  = {{ stepCalc1 }}</p>
                     <input type="range" min="0" max="100" v-model="step2" />
-                    <p>Step 2: {{ step2 }}% = {{ stepCalc2 }}</p>
+                    <p>Step 2 {{ step2 }}% ({{ step2_limit }}):= {{ stepCalc2 }}</p>
                     <input type="range" min="0" max="100" v-model="step3" />
                     <p>Step 3: {{ step3 }}% = {{ stepCalc3 }}</p>
                 </div>
