@@ -13,12 +13,15 @@ var app3 = new Vue({
     personalDiscountYear:623042,
   },
   computed: {
+    personalMonth: function(){
+      return Math.round(this.personalDiscountYear / 12);
+    },
     stepCalc1: function(){
       // Af ollu undir 336.035
       if (this.totalSalary <= this.step1_limit) {
-        return Math.round(this.step1 / 100 * (this.totalSalary)) ;
+        return Math.round(this.step1 / 100 * (this.totalSalary - this.personalMonth)) ;
       } else {
-        return Math.round(this.step1 / 100 * this.step1_limit);
+        return Math.round(this.step1 / 100 * this.step1_limit - this.personalMonth);
       }
     },
     stepCalc2: function(){
