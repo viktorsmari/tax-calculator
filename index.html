@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title></title>
+        <script type="text/javascript" src="https://unpkg.com/vue/dist/vue.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container" id="app3">
+            <div class="row">
+                <div class="col-md-6 col-xs-6">
+                    <label for="original_amount">Total amount</label>
+                    <div class="input-group input-group">
+                        <span class="input-group-addon">Kr</span>
+                        <input type="number" class="form-control" v-model="totalSalary" placeholder="Original Amount" id="original_amount" />
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="personal_discount">Personal discount, yearly</label>
+                    <div class="input-group input-group">
+                        <span class="input-group-addon">Kr</span>
+                        <input type="number" class="form-control" v-model="personalDiscountYear" placeholder="Original Amount" id="original_amount" />
+                    </div>
+                </div>
+
+                <div class="col-md-12 mt-2">
+                    <input type="range" min="0" max="100" v-model="step1" />
+                    <p>Step 1: {{ step1 }}% = {{ stepCalc1 }}</p>
+                    <input type="range" min="0" max="100" v-model="step2" />
+                    <p>Step 2: {{ step2 }}% = {{ stepCalc2 }}</p>
+                    <input type="range" min="0" max="100" v-model="step3" />
+                    <p>Step 3: {{ step3 }}% = {{ stepCalc3 }}</p>
+                </div>
+
+
+            </div> <!-- row -->
+            <div class="row">
+                <div class="col-md-12 mt-2">
+                    <h5 ng-model="final_amount">Total tax: {{ totalTax }}</h5>
+                    <h5 ng-model="final_amount">Total left: {{ totalLeft }}</h5>
+                </div>
+            </div> <!-- end row -->
+
+        </div> <!-- cont -->
+    </body>
+    <script type="text/javascript" charset="utf-8" src="index.js"></script>
+</html>
