@@ -33,15 +33,40 @@
             </div>
             <div class="row">
                 <div class="col-md-6 mt-2">
-                    <input type="range" min="0" max="100" v-model="step1" />
-                    <p>Step 1 {{ step1 }}% ({{ step1_limit }}):  = {{ stepCalc1 }}</p>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input class="form-control" type="range" min="0" max="100" v-model="step1" />
+                            <p>Step 1 {{ step1 }}% ({{ step1_limit }}):  = {{ stepCalc1 }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="number" min="0" max="100" v-model="step1" />
+                        </div>
+                    </div>
                     <hr />
-                    <input type="range" min="0" max="100" v-model="step2" />
-                    <p>Step 2 {{ step2 }}% ({{ step2_limit }}):= {{ stepCalc2 }}</p>
+
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input class="form-control" type="range" min="0" max="100" v-model="step2" />
+                            <p>Step 2 {{ step2 }}% ({{ step2_limit }}):  = {{ stepCalc2 }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="number" min="0" max="100" v-model="step2" />
+                        </div>
+                    </div>
                     <hr />
-                    <input type="range" min="0" max="100" v-model="step3" />
-                    <p>Step 3: {{ step3 }}% = {{ stepCalc3 }}</p>
+
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input class="form-control" type="range" min="0" max="100" v-model="step3" />
+                            <p>Step 3 {{ step3 }}%:  = {{ stepCalc3 }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="number" min="0" max="100" v-model="step3" />
+                        </div>
+                    </div>
                     <hr />
+
+
                 </div>
 
 
