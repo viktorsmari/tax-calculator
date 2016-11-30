@@ -46,6 +46,9 @@ var app3 = new Vue({
     },
     totalLeft: function(){
       return this.totalSalary - this.totalTax;
+    },
+    realTax: function(){
+      return Math.round(10000 * ( this.totalTax / this.totalSalary )) / 100 ;
     }
   },
   methods: {

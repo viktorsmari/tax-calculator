@@ -14,7 +14,7 @@
                     <h2>Tax calculator</h2>
                 </div>
                 <div class="col-md-6 col-xs-6">
-                    <label for="original_amount">Total amount</label>
+                    <label for="original_amount">Total salary</label>
                     <div class="input-group input-group">
                         <span class="input-group-addon">Kr</span>
                         <input type="number" class="form-control" v-model="totalSalary" placeholder="Original Amount" id="original_amount" />
@@ -48,8 +48,10 @@
             </div> <!-- row -->
             <div class="row">
                 <div class="col-md-12 mt-2">
-                    <h5 ng-model="final_amount">Total tax: {{ totalTax }}</h5>
-                    <h5 ng-model="final_amount">Total left: {{ totalLeft }}</h5>
+                    <h5>Total Salary: {{ totalSalary }}</h5>
+                    <h5>Total tax: {{ totalTax }}</h5>
+                    <h5>Total left: {{ totalLeft }}</h5>
+                    <p>Total tax pct: {{ realTax }}%</p>
                 </div>
             </div> <!-- end row -->
 
