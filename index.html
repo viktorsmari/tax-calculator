@@ -9,77 +9,86 @@
     </head>
     <body>
         <div class="container" id="app3">
+
             <div class="row">
                 <div class="col-md-12 my-2">
                     <h2>Tax calculator</h2>
                 </div>
-                <div class="col-md-6 col-xs-6">
-                    <label for="original_amount">Total salary</label>
-                    <div class="input-group input-group">
-                        <span class="input-group-addon">Kr</span>
-                        <input type="number" class="form-control" v-model="totalSalary" placeholder="Original Amount" id="original_amount" />
-                    </div>
-                </div> <!-- end row -->
-            </div>
-            <div class="row">
-                <div class="col-md-6 mt-1">
-                    <label for="personal_discount">Personal discount, yearly (not yet implemented)</label>
-                    <div class="input-group input-group">
-                        <span class="input-group-addon">Kr</span>
-                        <input type="number" class="form-control" v-model="personalDiscountYear" placeholder="Original Amount" id="original_amount" />
-                    </div>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-md-6 mt-2">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <input class="form-control" type="range" min="0" max="100" v-model="step1" />
-                            <p>Step 1 {{ step1 }}% ({{ step1_limit }}):  = {{ stepCalc1 }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <input class="form-control" type="number" min="0" max="100" v-model="step1" />
-                        </div>
-                    </div>
-                    <hr />
-
-                    <div class="row">
-                        <div class="col-md-9">
-                            <input class="form-control" type="range" min="0" max="100" v-model="step2" />
-                            <p>Step 2 {{ step2 }}% ({{ step2_limit }}):  = {{ stepCalc2 }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <input class="form-control" type="number" min="0" max="100" v-model="step2" />
-                        </div>
-                    </div>
-                    <hr />
-
-                    <div class="row">
-                        <div class="col-md-9">
-                            <input class="form-control" type="range" min="0" max="100" v-model="step3" />
-                            <p>Step 3 {{ step3 }}%:  = {{ stepCalc3 }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <input class="form-control" type="number" min="0" max="100" v-model="step3" />
-                        </div>
-                    </div>
-                    <hr />
-
-
-                </div>
-
-
-            </div> <!-- row -->
-            <div class="row">
-                <div class="col-md-12 mt-2">
-                    <h5>Total Salary: {{ totalSalary }}</h5>
-                    <h5>Total tax: {{ totalTax }}</h5>
-                    <h5>Total left: {{ totalLeft }}</h5>
-                    <p>Total tax pct: {{ realTax }}%</p>
-                </div>
             </div> <!-- end row -->
 
+            <div class="row">
+
+                <div class="col-lg-6">
+
+                    <div class="row">
+                        <div class="col-md-12 col-xs-6">
+                            <label for="original_amount">Total salary</label>
+                            <div class="input-group input-group">
+                                <span class="input-group-addon">Kr</span>
+                                <input type="number" class="form-control" v-model="totalSalary" placeholder="Original Amount" id="original_amount" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-1">
+                            <label for="personal_discount">Personal discount, yearly (not yet implemented)</label>
+                            <div class="input-group input-group">
+                                <span class="input-group-addon">Kr</span>
+                                <input type="number" class="form-control" v-model="personalDiscountYear" placeholder="Original Amount" id="original_amount" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12 mt-2">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <input class="form-control" type="range" min="0" max="100" v-model="step1" />
+                                    <p>Step 1: {{ step1 }}% ({{ step1_limit }}):  = {{ stepCalc1 }}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="number" min="0" max="100" v-model="step1" />
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <input class="form-control" type="range" min="0" max="100" v-model="step2" />
+                                    <p>Step 2: {{ step2 }}% ({{ step2_limit }}):  = {{ stepCalc2 }}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="number" min="0" max="100" v-model="step2" />
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <input class="form-control" type="range" min="0" max="100" v-model="step3" />
+                                    <p>Step 3: {{ step3 }}%:  = {{ stepCalc3 }}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="number" min="0" max="100" v-model="step3" />
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                    </div> <!-- row -->
+
+                </div> <!-- col6 -->
+
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-md-12 mt-2">
+                            <h5>Total Salary: {{ totalSalary }}</h5>
+                            <h5>Total tax: {{ totalTax }}</h5>
+                            <h5>Total left: {{ totalLeft }}</h5>
+                            <p>Total tax pct: {{ realTax }}%</p>
+                        </div>
+                    </div> <!-- end row -->
+                </div>
+
+            </div> <!-- end row -->
         </div> <!-- cont -->
     </body>
     <script type="text/javascript" charset="utf-8" src="index.js"></script>
