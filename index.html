@@ -17,10 +17,13 @@
             </div> <!-- end row -->
 
             <div class="row">
-
                 <div class="col-lg-6">
-
                     <div class="row">
+                        <div class="col-md-12 col-xs-6">
+                            <button class="btn btn-sm btn-secondary" v-on:click="btn1">300.000</button>
+                            <button class="btn btn-sm btn-secondary" v-on:click="btn2">600.000</button>
+                            <button class="btn btn-sm btn-secondary" v-on:click="btn3">900.000</button>
+                        </div>
                         <div class="col-md-12 col-xs-6">
                             <label for="original_amount">Total salary per month:</label>
                             <div class="input-group input-group">
@@ -34,12 +37,10 @@
                                 <span class="input-group-addon">Kr</span>
                                 <input type="number" class="form-control" v-model="personalDiscountYear" placeholder="Original Amount" id="original_amount" />
                             </div>
-                            <p>Per month: {{ personalMonth }} </p>
                         </div>
                     </div>
 
                     <div class="row">
-
                         <div class="col-md-12 mt-2">
                             <div class="row">
                                 <div class="col-md-9">
@@ -60,7 +61,7 @@
                                 <div class="col-md-3">
                                     <input class="form-control" type="number" min="0" max="100" v-model="step2" />
                                 </div>
-                            </div>
+                            </div><!-- end row -->
                             <hr />
 
                             <div class="row">
@@ -81,10 +82,13 @@
                 <div class="col-lg-6">
                     <div class="row">
                         <div class="col-md-12 mt-2">
-                            <h5>Total Salary: {{ totalSalary }}</h5>
-                            <h5>Total tax: {{ totalTax }}</h5>
-                            <h5>Total left: {{ totalLeft }}</h5>
-                            <p>Total tax pct: {{ realTax }}%</p>
+                            <table class="table table-sm table-bordered table-hover">
+                                <tr><td>Monthly Salary: </td><td>{{ totalSalary }}</td></tr>
+                                <tr><td>Monthly discount:</td><td>{{ personalMonth }}</td></tr>
+                                <tr><td>Total tax:      </td><td>{{ totalTax }}</td></tr>
+                                <tr><td><b>Salary remain:</b></td><td><b>{{ totalLeft }}</b></td></tr>
+                                <tr><td>Total tax pct:  </td><td>{{ realTax }}%</td></tr>
+                            </table>
                         </div>
                     </div> <!-- end row -->
                 </div>

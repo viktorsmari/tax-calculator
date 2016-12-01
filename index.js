@@ -57,6 +57,15 @@ var app3 = new Vue({
   methods: {
     toggleBool: function() {
       this.seen = !this.seen;
+    },
+    btn1: function() {
+      this.totalSalary = 300000;
+    },
+    btn2: function() {
+      this.totalSalary = 600000;
+    },
+    btn3: function() {
+      this.totalSalary = 900000;
     }
   }
 })
