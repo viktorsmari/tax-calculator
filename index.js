@@ -9,25 +9,38 @@ var app3 = new Vue({
     step1_limit: 336035,
     step2_limit: 836990,
 
-    totalSalary:655000,
+    totalSalary:336035,
     personalDiscountYear:623042,
+    examples: [
+      { price:200000},
+      { price:250000},
+      { price:300000},
+      { price:350000},
+      { price:400000},
+      { price:650000},
+      { price:900000},
+      { price:1200000},
+    ]
   },
   computed: {
     personalMonth: function(){
       return Math.round(this.personalDiscountYear / 12);
     },
-    stepCalc1: function(){
+    taxFromStep1: function(){
       // Af ollu undir 336.035
       if (this.totalSalary <= this.step1_limit) {
         return Math.round(this.step1 / 100 * (this.totalSalary - this.personalMonth)) ;
       } else {
-        return Math.round(this.step1 / 100 * this.step1_limit - this.personalMonth);
+        return Math.round(this.step1 / 100 * (this.step1_limit - this.personalMonth));
       }
     },
-    stepCalc2: function(){
+    taxFromStep2: function(){
       // af ollu fra 336.036 til 836.990
       if (this.totalSalary > this.step1_limit) {
+
+        //if upphaed er meira en 836, borga allt skattthrepid
         if (this.totalSalary < this.step2_limit){
+        // borga skatt2 af upphaed a thessu bili
           return Math.round(this.step2 / 100 * (this.totalSalary - this.step1_limit));
         } else {
           return Math.round(this.step2 / 100 * (this.step2_limit - this.step1_limit));
@@ -36,7 +49,7 @@ var app3 = new Vue({
         return 0;
       }
     },
-    stepCalc3: function(){
+    taxFromStep3: function(){
       // af ollu yfir 836.990
       if (this.totalSalary > this.step2_limit) {
         return Math.round(this.step3 / 100 * (this.totalSalary - this.step2_limit));
@@ -45,7 +58,7 @@ var app3 = new Vue({
       }
     },
     totalTax: function(){
-      return this.stepCalc1 + this.stepCalc2 + this.stepCalc3;
+      return this.taxFromStep1 + this.taxFromStep2 + this.taxFromStep3;
     },
     totalLeft: function(){
       return this.totalSalary - this.totalTax;
@@ -55,17 +68,11 @@ var app3 = new Vue({
     }
   },
   methods: {
+    updateTotalSal: function(number){
+      this.totalSalary = number;
+    },
     toggleBool: function() {
       this.seen = !this.seen;
     },
-    btn1: function() {
-      this.totalSalary = 300000;
-    },
-    btn2: function() {
-      this.totalSalary = 600000;
-    },
-    btn3: function() {
-      this.totalSalary = 900000;
-    }
   }
 })
