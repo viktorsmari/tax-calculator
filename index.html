@@ -47,7 +47,7 @@
               <div class="row" v-for="item in steps">
                 <div class="col-md-9">
                   <input class="form-control" type="range" min="0" max="100" v-model="item.taxPct" />
-                  <p>Tax perc: {{ item.taxPct }}%  Salary limit: {{ item.limit }}. Step tax:  </p>
+                  <p>Tax perc: <b>{{ item.taxPct }}%</b>  Salary limit: {{ item.limit }}. </p>
                 </div>
                 <div class="col-md-3">
                   <input class="form-control" type="number" min="0" max="100" v-model="item.taxPct" />
@@ -64,11 +64,14 @@
           <div class="row">
             <div class="col-md-12 mt-2">
               <table class="table table-sm table-bordered table-hover">
-                <tr><td>Monthly Salary: </td><td>{{ totalSalary }}</td></tr>
-                <tr><td>Monthly discount:</td><td>{{ personalMonth }}</td></tr>
-                <tr><td>Total tax:      </td><td>{{ totalTax }}</td></tr>
+                <tr><td>Monthly Salary: </td><td>+{{ totalSalary }}</td></tr>
+                <tr><td>Monthly discount:</td><td>+{{ personalMonth }}</td></tr>
+                <tr><td>Tax from Step1  </td><td>-{{ taxFromStep1 }}</td></tr>
+                <tr><td>Tax from Step2  </td><td>-{{ taxFromStep2 }}</td></tr>
+                <tr><td>Tax from Step3  </td><td>-{{ taxFromStep3 }}</td></tr>
+                <tr><td>Total tax:      </td><td>-{{ totalTax }}</td></tr>
                 <tr><td><b>Salary remain:</b></td><td><b>{{ totalLeft }}</b></td></tr>
-                <tr><td>Total tax pct:  </td><td>{{ realTax }}%</td></tr>
+                <tr><td>~Total tax pct:  </td><td>{{ realTax }}%</td></tr>
               </table>
             </div>
             <div class="col-md-12">
