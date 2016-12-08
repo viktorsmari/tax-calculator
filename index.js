@@ -38,9 +38,9 @@ var myapp = new Vue({
         //if upphaed er meira en 836, borga allt skattthrepid
         if (this.totalSalary < this.steps[1].limit){
         // borga skatt2 af upphaed a thessu bili
-          return Math.round(this.steps[1].limit / 100 * (this.totalSalary - this.steps[0].limit));
+           return Math.round(this.steps[1].taxPct / 100 * (this.totalSalary - this.steps[0].limit));
         } else {
-          return Math.round(this.steps[1].limit / 100 * (this.steps[1].limit - this.steps[0].limit));
+          return Math.round(this.steps[1].taxPct / 100 * (this.steps[1].limit - this.steps[0].limit));
         }
       } else {
         return 0;
@@ -49,7 +49,7 @@ var myapp = new Vue({
     taxFromStep3: function(){
       // af ollu yfir 836.990
       if (this.totalSalary > this.steps[1].limit) {
-        return Math.round(this.step3 / 100 * (this.totalSalary - this.steps[1].limit));
+        return Math.round(this.steps[2].taxPct / 100 * (this.totalSalary - this.steps[1].limit));
       } else {
         return 0;
       }
