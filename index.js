@@ -1,5 +1,5 @@
-var app3 = new Vue({
-  el: '#app3',
+var myapp = new Vue({
+  el: '#app',
   data: {
     test: "testing",
     numb: 1,
@@ -12,7 +12,6 @@ var app3 = new Vue({
     totalSalary:336035,
     personalDiscountYear:623042,
     examples: [
-      { price:200000},
       { price:250000},
       { price:300000},
       { price:350000},
