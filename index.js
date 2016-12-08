@@ -1,24 +1,22 @@
 var myapp = new Vue({
   el: '#app',
   data: {
-    test: "testing",
-    numb: 1,
-    step1: 37.13,
-    step2: 38.35,
-    step3: 46.25,
-    step1_limit: 336035,
-    step2_limit: 836990,
-
     totalSalary:336035,
     personalDiscountYear:623042,
+    steps: [
+      { taxPct: 37.13, limit: 336035},
+      { taxPct: 38.35, limit: 836990},
+      { taxPct: 46.25, limit: 0},
+    ],
+
     examples: [
-      { price:250000},
-      { price:300000},
-      { price:350000},
-      { price:400000},
-      { price:650000},
-      { price:900000},
-      { price:1200000},
+      { price: 250000},
+      { price: 300000},
+      { price: 350000},
+      { price: 400000},
+      { price: 650000},
+      { price: 900000},
+      { price: 1200000},
     ]
   },
   computed: {
@@ -27,22 +25,22 @@ var myapp = new Vue({
     },
     taxFromStep1: function(){
       // Af ollu undir 336.035
-      if (this.totalSalary <= this.step1_limit) {
-        return Math.round(this.step1 / 100 * (this.totalSalary - this.personalMonth)) ;
+      if (this.totalSalary <= this.steps[0].limit) {
+        return Math.round(this.steps[0].taxPct / 100 * (this.totalSalary - this.personalMonth)) ;
       } else {
-        return Math.round(this.step1 / 100 * (this.step1_limit - this.personalMonth));
+        return Math.round(this.steps[0].taxPct / 100 * (this.steps[0].limit - this.personalMonth));
       }
     },
     taxFromStep2: function(){
       // af ollu fra 336.036 til 836.990
-      if (this.totalSalary > this.step1_limit) {
+      if (this.totalSalary > this.steps[0].limit) {
 
         //if upphaed er meira en 836, borga allt skattthrepid
-        if (this.totalSalary < this.step2_limit){
+        if (this.totalSalary < this.steps[1].limit){
         // borga skatt2 af upphaed a thessu bili
-          return Math.round(this.step2 / 100 * (this.totalSalary - this.step1_limit));
+          return Math.round(this.steps[1].limit / 100 * (this.totalSalary - this.steps[0].limit));
         } else {
-          return Math.round(this.step2 / 100 * (this.step2_limit - this.step1_limit));
+          return Math.round(this.steps[1].limit / 100 * (this.steps[1].limit - this.steps[0].limit));
         }
       } else {
         return 0;
@@ -50,8 +48,8 @@ var myapp = new Vue({
     },
     taxFromStep3: function(){
       // af ollu yfir 836.990
-      if (this.totalSalary > this.step2_limit) {
-        return Math.round(this.step3 / 100 * (this.totalSalary - this.step2_limit));
+      if (this.totalSalary > this.steps[1].limit) {
+        return Math.round(this.step3 / 100 * (this.totalSalary - this.steps[1].limit));
       } else {
         return 0;
       }
