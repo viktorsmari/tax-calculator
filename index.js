@@ -68,8 +68,5 @@ var myapp = new Vue({
     updateTotalSal: function(number){
       this.totalSalary = number;
     },
-    toggleBool: function() {
-      this.seen = !this.seen;
-    },
   }
 })
