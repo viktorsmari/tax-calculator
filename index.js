@@ -26,9 +26,9 @@ var myapp = new Vue({
     taxFromStep1: function(){
       // Af ollu undir 336.035
       if (this.totalSalary <= this.steps[0].limit) {
-        return Math.round(this.steps[0].taxPct / 100 * (this.totalSalary - this.personalMonth)) ;
+        return Math.round(this.steps[0].taxPct / 100 * (this.totalSalary)) ;
       } else {
-        return Math.round(this.steps[0].taxPct / 100 * (this.steps[0].limit - this.personalMonth));
+        return Math.round(this.steps[0].taxPct / 100 * (this.steps[0].limit));
       }
     },
     taxFromStep2: function(){
@@ -55,7 +55,8 @@ var myapp = new Vue({
       }
     },
     totalTax: function(){
-      return this.taxFromStep1 + this.taxFromStep2 + this.taxFromStep3;
+      // All tax steps combined - personal tax discount
+      return this.taxFromStep1 + this.taxFromStep2 + this.taxFromStep3 - this.personalMonth;
     },
     totalLeft: function(){
       return this.totalSalary - this.totalTax;
