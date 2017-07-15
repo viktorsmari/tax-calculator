@@ -5,7 +5,7 @@ var myapp = new Vue({
     personalDiscountYear:634880,
     steps: [
       { taxPct: 36.94, limit: 834707},
-      { taxPct: 46.25, limit: 0}
+      { taxPct: 46.24, limit: 0}
     ],
 
     examples: [
