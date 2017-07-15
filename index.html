@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Tax Calculator</title>
-    <script type="text/javascript" src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/vue/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/vue2-filters/0.1.9/vue2-filters.min.js"></script>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   </head>
   <body>
     <div class="container" id="app">
 
-      <div class="row">
+      <div class="row my-2">
         <div class="col-md-12">
           <h2 class="my-1">Tax calculator</h2>
           <p>
@@ -27,12 +27,12 @@
       </div> <!-- end row -->
 
       <div class="row">
-        <div class="col-xs-12 col-lg-7">
+        <div class="col-12 col-lg-7">
           <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
               <label for="original_amount">Total salary per month:</label>
             </div>
-            <div class="col-xs-12">
+            <div class="col-12">
               <button v-for="item in examples" class="btn btn-sm btn-secondary" v-on:click="updateTotalSal(item.price)">{{ item.price }}</button>
               <input class="form-control" type="range" min="0" max="2000000" v-model="totalSalary" />
               <div class="input-group input-group">
@@ -40,7 +40,7 @@
                 <input type="number" class="form-control" v-model="totalSalary" placeholder="Original Amount" id="original_amount" />
               </div>
             </div>
-            <div class="col-xs-12 mt-1">
+            <div class="col mt-1">
               <label for="personal_discount">Personal discount, yearly</label>
               <div class="input-group input-group">
                 <span class="input-group-addon">Kr</span>
@@ -48,29 +48,29 @@
               </div>
             </div>
 
-            <div class="col-xs-12 mt-2">
+            <div class="col-12 mt-2">
               <h6>Tax rate and limit for each step:</h6>
               <div v-for="(item, index) in steps" >
                 <hr />
                 <div class="row">
-                  <div class="col-xs-3">
+                  <div class="col-3">
                     <p>Tax % in <b>step {{index + 1}} </b></p>
                   </div>
-                  <div class="col-xs-5">
+                  <div class="col-5">
                     <input class="form-control" type="range" min="0" max="100" v-model="item.taxPct" />
                   </div>
-                  <div class="col-xs-4">
+                  <div class="col-4">
                     <input class="form-control" type="number" min="0" max="100" v-model="item.taxPct" />
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-xs-3">
+                  <div class="col-3">
                     <p>Salary threshold</p>
                   </div>
-                  <div class="col-xs-5">
+                  <div class="col-5">
                     <input class="form-control" type="range" min="0" max="999999" v-model="item.limit" />
                   </div>
-                  <div class="col-xs-4">
+                  <div class="col-4">
                     <input class="form-control" type="number" min="0" max="999999" v-model="item.limit" />
                   </div>
                 </div>
@@ -78,9 +78,9 @@
 
             </div>
           </div> <!-- row -->
-        </div> <!-- col-xs-12 col-lg-7 -->
+        </div> <!-- col-12 col-lg-7 -->
 
-        <div class="col-xs-12 col-lg-5">
+        <div class="col-12 col-lg-5">
           <div class="row">
             <div class="col-md-12 mt-2">
               <table class="table table-sm table-bordered table-hover">
