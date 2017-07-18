@@ -1,7 +1,7 @@
 # tax-calculator
-Tax steps calculator for Iceland - in vue.js and bootstrap 4 alpha
+Tax steps calculator for Iceland - in vue.js and bootstrap 4 alpha.6
 
-[Live demo here](https://viktorsmari.github.io/tax-calculator/)
+[Live version here](https://viktorsmari.github.io/tax-calculator/)
 
 You can test it locally by running `./startServer.sh`  and visiting http://localhost:8000
 
