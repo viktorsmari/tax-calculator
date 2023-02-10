@@ -34,15 +34,19 @@ var myapp = new Vue({
       }
     },
     taxFromStep2: function(){
-      // af ollu yfir 836.990
-      if (this.totalSalary > this.steps[0].limit) {
-        return Math.round(this.steps[1].taxPct / 100 * (this.totalSalary - this.steps[0].limit));
+      // if below first limit, return 0
+      // if above second limit return full
+      // if in the middle, return the full amount - first limit
+      if (this.totalSalary < this.steps[0].limit) {
+        return 0
+      } else if (this.totalSalary > this.steps[1].limit) {
+        return Math.round(this.steps[1].taxPct / 100 * (this.steps[1].limit - this.steps[0].limit));
       } else {
-        return 0;
+        return Math.round(this.steps[1].taxPct / 100 * (this.totalSalary - this.steps[0].limit));
       }
     },
      taxFromStep3: function(){
-      // af ollu yfir 836.990
+      // of everything above the step2
       if (this.totalSalary > this.steps[1].limit) {
         return Math.round(this.steps[2].taxPct / 100 * (this.totalSalary - this.steps[1].limit));
       } else {

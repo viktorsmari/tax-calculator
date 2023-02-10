@@ -2,122 +2,95 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tax Calculator</title>
     <script type="text/javascript" src="https://unpkg.com/vue@2.7.14/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/vue2-filters/0.1.9/vue2-filters.min.js"></script>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   </head>
   <body>
     <div class="container" id="app">
 
-      <div class="row my-2">
-        <div class="col-md-12">
-          <h2 class="my-1">Tax calculator</h2>
-          <p>
-            Default values are from Icelandic ministry of finance for year
-            <a href="https://www.rsk.is/einstaklingar/stadgreidsla/stadgreidsla/2023/#tab2">2023.</a>
-          </p>
-          <p>
-          36.94% af tekjum 0 - 834.707 kr.<br />
-          46,24% af tekjum yfir 834.707 kr.
-          </p>
-        </div>
-      </div> <!-- end row -->
+      <h2 class="my-3">Tax calculator</h2>
+      <p>
+      Default values are from Icelandic ministry of finance for year
+      <a href="https://www.rsk.is/einstaklingar/stadgreidsla/stadgreidsla/2023/#tab2">2023.</a>
+      </p>
+      <p>Currently there are 3 tax brackets:</p>
+      <ul>
+        <li v-for="item in steps">{{item.taxPct}}% of salaries until {{item.limit | currency('', 0)}} kr.</li>
+      </ul>
 
       <div class="row">
-        <div class="col-12 col-lg-7">
-          <div class="row">
-            <div class="col-12">
-              <label for="original_amount">Total salary per month:</label>
-            </div>
-            <div class="col-12">
-              <button v-for="item in examples" class="btn btn-sm btn-secondary" v-on:click="updateTotalSal(item.price)">{{ item.price }}</button>
-              <input class="form-control" type="range" min="0" max="2000000" v-model="totalSalary" />
-              <div class="input-group input-group">
-                <span class="input-group-addon">Kr</span>
-                <input type="number" class="form-control" v-model="totalSalary" placeholder="Original Amount" id="original_amount" />
-              </div>
-            </div>
-            <div class="col mt-1">
-              <label for="personal_discount">Personal discount, yearly</label>
-              <div class="input-group input-group">
-                <span class="input-group-addon">Kr</span>
-                <input type="number" class="form-control" v-model="personalDiscountYear" placeholder="Original Amount" id="original_amount" />
-              </div>
-            </div>
+        <div class="col-12 col-lg-7 mb-3">
+          <label for="original_amount">Total salary per month:</label><br>
+          <button v-for="item in examples" class="badge bg-secondary m-1" v-on:click="updateTotalSal(item.price)">{{ item.price }}</button>
+          <input class="form-range my-2" type="range" min="0" max="2000000" v-model="totalSalary" />
+          <div class="input-group input-group my-1">
+            <span class="input-group-text">Kr</span>
+            <input type="number" class="form-control" v-model="totalSalary" placeholder="Original Amount" id="original_amount" />
+          </div>
+          <label for="personal_discount">Personal discount, yearly</label>
+          <div class="input-group input-group mb-1">
+            <span class="input-group-text">Kr</span>
+            <input type="number" class="form-control" v-model="personalDiscountYear" placeholder="Original Amount" id="original_amount" />
+          </div>
+        </div>
+        <div class="col-12 col-lg-5">
+          <table class="table table-sm table-bordered table-hover">
+            <tr class=""><td>Monthly Salary:                  </td><td>{{ totalSalary  | currency('', 0)}}</td></tr>
+            <tr class="text-success"><td>Monthly tax discount:</td><td>{{ personalMonth| currency('', 0)}}</td></tr>
+            <tr class="text-muted"><td>Tax from Step1         </td><td>{{ taxFromStep1 | currency('', 0)}}</td></tr>
+            <tr class="text-muted"><td>Tax from Step2         </td><td>{{ taxFromStep2 | currency('', 0)}}</td></tr>
+            <tr class="text-muted"><td>Tax from Step3         </td><td>{{ taxFromStep3 | currency('', 0)}}</td></tr>
+            <tr class="text-danger"><td>Total tax:            </td><td>{{ totalTax     | currency('', 0)}}</td></tr>
+            <tr class=""><td><b>Salary remain:</b>            </td><td><b>{{ totalLeft | currency('', 0)}}</b></td></tr>
+            <tr><td>~Actual tax percentage:  </td><td>{{ realTax }}%</td></tr>
+          </table>
+        </div>
 
-            <div class="col-12 mt-2">
-              <h6>Tax rate and limit for each step:</h6>
+        <div class="col-lg-5">
+          <div class="card">
+            <h6 class="card-header">Tax rate and limit for each step:</h6>
+            <div class="card-body">
               <div v-for="(item, index) in steps" >
                 <hr />
                 <div class="row">
-                  <div class="col-3">
+                  <div class="col">
                     <p>Tax % in <b>step {{index + 1}} </b></p>
                   </div>
-                  <div class="col-5">
-                    <input class="form-control" type="range" min="0" max="100" v-model="item.taxPct" />
-                  </div>
-                  <div class="col-4">
+                  <div class="col">
                     <input class="form-control" type="number" min="0" max="100" v-model="item.taxPct" />
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-3">
+                  <div class="col">
                     <p>Salary threshold</p>
                   </div>
-                  <div class="col-5">
-                    <input class="form-control" type="range" min="0" max="999999" v-model="item.limit" />
-                  </div>
-                  <div class="col-4">
+                  <div class="col">
                     <input class="form-control" type="number" min="0" max="999999" v-model="item.limit" />
                   </div>
                 </div>
-              </div> <!-- items -->
-
+              </div>
             </div>
-          </div> <!-- row -->
+          </div> <!-- items -->
         </div> <!-- col-12 col-lg-7 -->
 
-        <div class="col-12 col-lg-5">
-          <div class="row">
-            <div class="col-md-12 mt-2">
-              <table class="table table-sm table-bordered table-hover">
-                <tr class=""><td>Monthly Salary:                  </td><td>{{ totalSalary  | currency('', 0)}}</td></tr>
-                <tr class="text-success"><td>Monthly tax discount:</td><td>{{ personalMonth| currency('', 0)}}</td></tr>
-                <tr class="text-muted"><td>Tax from Step1         </td><td>{{ taxFromStep1 | currency('', 0)}}</td></tr>
-                <tr class="text-muted"><td>Tax from Step2         </td><td>{{ taxFromStep2 | currency('', 0)}}</td></tr>
-                <tr class="text-muted"><td>Tax from Step3         </td><td>{{ taxFromStep3 | currency('', 0)}}</td></tr>
-                <tr class="text-danger"><td>Total tax:            </td><td>{{ totalTax     | currency('', 0)}}</td></tr>
-                <tr class=""><td><b>Salary remain:</b>            </td><td><b>{{ totalLeft | currency('', 0)}}</b></td></tr>
-                <tr><td>~Actual tax percentage:  </td><td>{{ realTax }}%</td></tr>
-              </table>
-            </div>
-          </div> <!-- end row -->
-        </div>
-
-          <div class="col-md-12 text-muted">
-            <hr />
-            <i>This does NOT calculate vacation (ísl: 'orlof') nor what you pay your union (ísl: 'stéttarfélag').</i>
-            <h6>TODO:</h6>
-            <input type="checkbox" name="" id="" value="" disabled="disabled" />
-            Calculate vacation 'orlof' - can be 24-30 days.
-            <br />
-            <input type="checkbox" name="" id="" value="" disabled="disabled" />
-            Calculate union 'Verkalýdsfélag'
-          </div>
-
-
       </div> <!-- end row -->
-      <div class="row">
-        <div class="col-md-12">
-        </div>
-        <div class="col-md-12">
-          <p>This code is free and open source.</p>
-          <a href="https://www.github.com/viktorsmari/tax-calculator/">Click here for code</a>
-        </div>
+
+      <div class="text-muted">
+        <hr />
+        <i>This does NOT calculate vacation (ísl: 'orlof') nor what you pay your union (ísl: 'stéttarfélag').</i>
+        <h6>TODO:</h6>
+        <input type="checkbox" name="" id="" value="" disabled="disabled" />
+        Calculate vacation 'orlof' - can be 24-30 days.
+        <br />
+        <input type="checkbox" name="" id="" value="" disabled="disabled" />
+        Calculate union 'Verkalýdsfélag'
       </div>
+      <p>This code is free and open source.</p>
+      <a href="https://www.github.com/viktorsmari/tax-calculator/">Click here for code</a>
     </div> <!-- cont -->
   </body>
   <script type="text/javascript" charset="utf-8" src="index.js"></script>
