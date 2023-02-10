@@ -6,7 +6,7 @@ var myapp = new Vue({
     steps: [
       { taxPct: 31.45, limit: 409986},
       { taxPct: 37.95, limit: 1151012},
-      { taxPct: 46.24, limit: 0}
+      { taxPct: 46.25, limit: 0}
     ],
 
     examples: [
@@ -14,8 +14,10 @@ var myapp = new Vue({
       { price: 300000},
       { price: 350000},
       { price: 400000},
-      { price: 834707},
+      { price: 409986},
+      { price: 800000},
       { price: 900000},
+      { price: 1151012},
       { price: 1200000},
     ]
   },
@@ -39,9 +41,17 @@ var myapp = new Vue({
         return 0;
       }
     },
+     taxFromStep3: function(){
+      // af ollu yfir 836.990
+      if (this.totalSalary > this.steps[1].limit) {
+        return Math.round(this.steps[2].taxPct / 100 * (this.totalSalary - this.steps[1].limit));
+      } else {
+        return 0;
+      }
+    },
     totalTax: function(){
       // All tax steps combined - personal tax discount
-      return this.taxFromStep1 + this.taxFromStep2 - this.personalMonth;
+      return this.taxFromStep1 + this.taxFromStep2 + this.taxFromStep3 + - this.personalMonth;
     },
     totalLeft: function(){
       return this.totalSalary - this.totalTax;
