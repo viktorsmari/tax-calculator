@@ -12,12 +12,24 @@
   <body>
     <div class="container" id="app">
 
-      <h2 class="my-3">Tax calculator</h2>
+      <h2 class="my-3">Income tax calculator for Iceland</h2>
       <p>
-      Default values are from Icelandic ministry of finance for year
-      <a href="https://www.rsk.is/einstaklingar/stadgreidsla/stadgreidsla/2023/#tab2">2023.</a>
+        This is a simple tax calculator to help calculate <strong>salaries after tax</strong> in Iceland, in order to see the amount you can actually spend (disposable income).
       </p>
-      <p>Currently there are 3 tax brackets:</p>
+      <p>
+        Default values are from <strong>Icelandic ministry of finance</strong> for year
+        <a href="https://www.rsk.is/einstaklingar/stadgreidsla/stadgreidsla/2023/#tab2" target="_blank">2023.</a>
+        <br>
+        <span class="text-muted">
+        You can change most numbers, in case they have changed and this calculator has not been updated.
+        </span>
+      </p>
+      <p>
+      Every person also has a <a href="https://www.skatturinn.is/einstaklingar/stadgreidsla/personuafslattur/" target="_blank">tax discount</a> of a fixed number
+        yearly: {{personalDiscountYear | currency('', 0)}}
+        monthly: {{personalDiscountYear / 12 | currency('', 0)}}
+      </p>
+      <p>Currently there are 3 <a href="https://www.skatturinn.is/einstaklingar/stadgreidsla/skattthrep/2023" target="_blank">tax brackets</a>:</p>
       <ul>
         <li v-for="item in steps">{{item.taxPct}}% of salaries until {{item.limit | currency('', 0)}} kr.</li>
       </ul>
@@ -25,7 +37,10 @@
       <div class="row">
         <div class="col-12 col-lg-7 mb-3">
           <label for="original_amount">Total salary per month:</label><br>
-          <button v-for="item in examples" class="badge bg-secondary m-1" v-on:click="updateTotalSal(item.price)">{{ item.price }}</button>
+          <button v-for="item in examples" class="badge bg-secondary m-1" v-on:click="updateTotalSal(item.price)">
+            {{ item.price }}
+          </button>
+
           <input class="form-range my-2" type="range" min="0" max="2000000" v-model="totalSalary" />
           <div class="input-group input-group my-1">
             <span class="input-group-text">Kr</span>
@@ -89,8 +104,13 @@
         <input type="checkbox" name="" id="" value="" disabled="disabled" />
         Calculate union 'Verkalýdsfélag'
       </div>
-      <p>This code is free and open source.</p>
-      <a href="https://www.github.com/viktorsmari/tax-calculator/">Click here for code</a>
+
+      <footer class="my-5">
+        This code is <a href="https://www.github.com/viktorsmari/tax-calculator/" target="_blank">free and open source.</a>
+        <br>
+
+        Made by <a href="https://viktorsmari.github.io/" target="_blank">Viktor Smári</a>
+      </footer>
     </div> <!-- cont -->
   </body>
   <script type="text/javascript" charset="utf-8" src="index.js"></script>
