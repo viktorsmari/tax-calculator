@@ -18,7 +18,7 @@
       </p>
       <p>
         Default values are from <strong>Icelandic ministry of finance</strong> for year
-        <a href="https://www.rsk.is/einstaklingar/stadgreidsla/stadgreidsla/2023/#tab2" target="_blank">2023.</a>
+        <a href="https://www.rsk.is/einstaklingar/stadgreidsla/stadgreidsla/2024/#tab2" target="_blank">2024.</a>
         <br>
         <span class="text-muted">
         You can change most numbers, in case they have changed and this calculator has not been updated.
@@ -29,7 +29,7 @@
         yearly: {{personalDiscountYear | currency('', 0)}}
         monthly: {{personalDiscountYear / 12 | currency('', 0)}}
       </p>
-      <p>Currently there are 3 <a href="https://www.skatturinn.is/einstaklingar/stadgreidsla/skattthrep/2023" target="_blank">tax brackets</a>:</p>
+      <p>Currently there are 3 <a href="https://www.skatturinn.is/einstaklingar/stadgreidsla/skattthrep/2024" target="_blank">tax brackets</a>:</p>
       <ul>
         <li v-for="item in steps">{{item.taxPct}}% of salaries until {{item.limit | currency('', 0)}} kr.</li>
       </ul>
