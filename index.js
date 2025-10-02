@@ -1,24 +1,25 @@
+let limit_1 = 472005;
+let limit_2 = 1325127;
+
 var myapp = new Vue({
   el: '#app',
   data: {
     totalSalary: 368000,
     personalDiscountYear: 824288,
     steps: [
-      { taxPct: 31.49, limit: 472005},
-      { taxPct: 37.99, limit: 1325127},
+      { taxPct: 31.49, limit: limit_1},
+      { taxPct: 37.99, limit: limit_2},
       { taxPct: 46.29, limit: 0}
     ],
 
     examples: [
-      { price: 250000},
-      { price: 300000},
       { price: 350000},
-      { price: 400000},
-      { price: 446136},
+      { price: limit_1},
+      { price: 600000},
       { price: 800000},
-      { price: 900000},
-      { price: 1252501},
-      { price: 1200000},
+      { price: 1000000},
+      { price: limit_2},
+      { price: 1500000},
     ]
   },
   computed: {
