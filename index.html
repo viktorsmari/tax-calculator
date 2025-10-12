@@ -64,8 +64,10 @@
             <tr><td>~Actual tax percentage:  </td><td>{{ realTax }}%</td></tr>
           </table>
         </div>
+      </div>
 
-        <div class="col-lg-5">
+      <div class="row justify-content-between">
+        <div class="col-xl-5 mb-3">
           <div class="card">
             <h6 class="card-header">Tax rate and limit for each step:</h6>
             <div class="card-body">
@@ -76,7 +78,10 @@
                     <p>Tax % in <b>step {{index + 1}} </b></p>
                   </div>
                   <div class="col">
-                    <input class="form-control" type="number" min="0" max="100" v-model="item.taxPct" />
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">%</span>
+                      <input class="form-control" type="number" min="0" max="100" v-model="item.taxPct" />
+                    </div>
                   </div>
                 </div>
                 <div class="row">
@@ -84,13 +89,26 @@
                     <p>Salary threshold</p>
                   </div>
                   <div class="col">
-                    <input class="form-control" type="number" min="0" max="999999" v-model="item.limit" />
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">Kr</span>
+                      <input class="form-control" type="number" min="0" max="999999" v-model="item.limit" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div> <!-- items -->
-        </div> <!-- col-12 col-lg-7 -->
+        </div> <!-- col -->
+
+        <div class="col-xl-5">
+          <div class="card text-bg-light mb-3">
+            <h6 class="card-header">Ads</h6>
+            <div class="card-body">
+              <p>Looking for software for repair shops? <a href="https://www.repero.me" target="_blank">Repero.me</a> can create invoices and send your customers emails or text messages, manage inventory and more</p>
+              <p>Looking for bicycles or bike repairs? Check out <a href="https://www.hjolasprettur.is" target="_blank">Hjólasprettur</a> in Hafnarfjörður, Iceland</p>
+            </div>
+          </div>
+        </div>
       </div> <!-- end row -->
 
       <div class="text-muted">
