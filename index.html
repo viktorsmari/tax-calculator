@@ -1,73 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
   <head>
     <meta charset="utf-8">
+    <meta name="color-scheme" content="light">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tax Calculator</title>
+    <title>Iceland Tax Calculator 2026 – Salary After Tax</title>
+    <meta name="description" content="Estimate your Iceland salary after income tax and employee pension contributions using 2026 tax brackets. See monthly ISK examples and personal tax credit details.">
+    <link rel="canonical" href="https://viktorsmari.github.io/tax-calculator/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Iceland Tax Calculator 2026 – Salary After Tax">
+    <meta property="og:description" content="Calculate estimated monthly salary after Icelandic income tax and employee pension contributions. Includes 2026 rates and worked examples.">
+    <meta property="og:url" content="https://viktorsmari.github.io/tax-calculator/">
     <script type="text/javascript" src="https://unpkg.com/vue@2.7.14/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/vue2-filters/0.1.9/vue2-filters.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <div class="container" id="app">
 
-      <h2 class="my-3">Income tax calculator for Iceland</h2>
+      <h1 class="h2 my-3">Income tax calculator for Iceland</h1>
       <p>
         This is a simple tax calculator to help calculate <strong>salaries after tax</strong> in Iceland, in order to see the amount you can actually spend (disposable income).
       </p>
       <p>
         Default values are from <strong>Icelandic ministry of finance</strong> for year
-        <a href="https://www.skatturinn.is/einstaklingar/stadgreidsla/stadgreidsla/2025/#tab2" target="_blank">2025.</a>
+        <a href="https://www.skatturinn.is/english/individuals/key-rates-and-amounts/2026/" target="_blank">2026.</a>
         <br>
-        <span class="text-muted">
+        <span class="fg-2">
         You can change most numbers, in case they have changed and this calculator has not been updated.
         </span>
       </p>
       <p>
-      Every person also has a <a href="https://www.skatturinn.is/einstaklingar/stadgreidsla/personuafslattur/" target="_blank">tax discount</a> of a fixed number
+      Eligible taxpayers have a <a href="https://www.skatturinn.is/einstaklingar/stadgreidsla/personuafslattur/" target="_blank">tax discount</a> of a fixed number
         yearly: {{personalDiscountYear | currency('', 0)}}
         /
-        monthly: {{personalDiscountYear / 12 | currency('', 0)}}
+        monthly: {{personalMonth | currency('', 0)}}
       </p>
-      <p>Currently there are 3 <a href="https://www.skatturinn.is/einstaklingar/stadgreidsla/skattthrep/2024" target="_blank">tax brackets</a>:</p>
+      <p>Currently there are 3 <a href="https://www.skatturinn.is/english/individuals/tax-brackets/2026" target="_blank">tax brackets</a>:</p>
       <ul>
-        <li v-for="item in steps">{{item.taxPct}}% of salaries until {{item.limit | currency('', 0)}} kr.</li>
+        <li v-for="(item, index) in steps">{{item.taxPct}}% of taxable salary
+          <span v-if="index < 2">{{ index === 0 ? 'up to' : 'above ' + money(steps[0].limit) + ' and up to' }} {{item.limit | currency('', 0)}} kr.</span>
+          <span v-else>above {{steps[1].limit | currency('', 0)}} kr.</span>
+        </li>
       </ul>
 
       <div class="row">
-        <div class="col-12 col-lg-7 mb-3">
+        <div class="col-12 lg:col-7 mb-3">
           <label for="original_amount">Total salary per month:</label><br>
-          <button v-for="item in examples" class="badge bg-secondary m-1" v-on:click="updateTotalSal(item.price)">
-            {{ item.price }}
+          <button v-for="item in examples" class="badge bg-secondary fg-contrast-secondary m-1" v-on:click="totalSalary = item">
+            {{ item }}
           </button>
 
-          <input class="form-range my-2" type="range" min="0" max="2000000" v-model="totalSalary" />
+          <input aria-label="Total salary per month" class="form-range my-2" type="range" min="0" max="2000000" v-model="totalSalary" />
           <div class="input-group input-group my-1">
             <span class="input-group-text">Kr</span>
-            <input type="number" class="form-control" v-model="totalSalary" placeholder="Original Amount" id="original_amount" />
+            <input type="number" class="form-control" min="0" v-model="totalSalary" placeholder="Original Amount" id="original_amount" />
           </div>
           <label for="personal_discount">Personal discount, yearly</label>
           <div class="input-group input-group mb-1">
             <span class="input-group-text">Kr</span>
-            <input type="number" class="form-control" v-model="personalDiscountYear" placeholder="Original Amount" id="original_amount" />
+            <input type="number" class="form-control" v-model="personalDiscountYear" min="0" placeholder="Annual personal tax credit" id="personal_discount" />
           </div>
+          <label for="pension">Employee pension contribution (%)</label>
+          <input id="pension" type="number" class="form-control" min="0" max="8" step="0.1" v-model="pensionPct">
+          <small>Default 4%; include eligible additional pension savings up to 8% combined.</small>
         </div>
-        <div class="col-12 col-lg-5">
-          <table class="table table-sm table-bordered table-hover">
+        <div class="col-12 lg:col-5">
+          <p v-if="calculation.error" role="alert">{{ calculation.error }}</p>
+          <table v-if="calculation.result" class="table table-sm table-bordered table-hover">
             <tr class=""><td>Monthly Salary:                  </td><td>{{ totalSalary  | currency('', 0)}}</td></tr>
-            <tr class="text-success"><td>Monthly tax discount:</td><td>{{ personalMonth| currency('', 0)}}</td></tr>
-            <tr class="text-muted"><td>Tax from Step1         </td><td>{{ taxFromStep1 | currency('', 0)}}</td></tr>
-            <tr class="text-muted"><td>Tax from Step2         </td><td>{{ taxFromStep2 | currency('', 0)}}</td></tr>
-            <tr class="text-muted"><td>Tax from Step3         </td><td>{{ taxFromStep3 | currency('', 0)}}</td></tr>
-            <tr class="text-danger"><td>Total tax:            </td><td>{{ totalTax     | currency('', 0)}}</td></tr>
-            <tr class=""><td><b>Salary remain:</b>            </td><td><b>{{ totalLeft | currency('', 0)}}</b></td></tr>
-            <tr><td>~Actual tax percentage:  </td><td>{{ realTax }}%</td></tr>
+            <tr><td>Employee pension:</td><td>{{ calculation.result.pension | currency('', 0) }}</td></tr>
+            <tr><td class="fg-success">Monthly tax discount:</td><td class="fg-success">{{ personalMonth| currency('', 0)}}</td></tr>
+            <tr><td class="fg-2">Tax from Step1         </td><td class="fg-2">{{ calculation.result.taxes[0] | currency('', 0)}}</td></tr>
+            <tr><td class="fg-2">Tax from Step2         </td><td class="fg-2">{{ calculation.result.taxes[1] | currency('', 0)}}</td></tr>
+            <tr><td class="fg-2">Tax from Step3         </td><td class="fg-2">{{ calculation.result.taxes[2] | currency('', 0)}}</td></tr>
+            <tr><td class="fg-danger">Total tax:            </td><td class="fg-danger">{{ calculation.result.tax     | currency('', 0)}}</td></tr>
+            <tr class=""><td><b>Salary remain (after pension):</b>            </td><td><b>{{ calculation.result.net | currency('', 0)}}</b></td></tr>
+            <tr><td>~Actual tax percentage:  </td><td>{{ calculation.result.effectiveRate.toFixed(2) }}%</td></tr>
           </table>
         </div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-xl-5 mb-3">
+        <div class="xl:col-5 mb-3">
           <div class="card">
             <h6 class="card-header">Tax rate and limit for each step:</h6>
             <div class="card-body">
@@ -80,18 +95,18 @@
                   <div class="col">
                     <div class="input-group mb-3">
                       <span class="input-group-text">%</span>
-                      <input class="form-control" type="number" min="0" max="100" v-model="item.taxPct" />
+                      <input class="form-control" type="number" min="0" max="100" step="0.01" v-model="item.taxPct" />
                     </div>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="index < 2">
                   <div class="col">
                     <p>Salary threshold</p>
                   </div>
                   <div class="col">
                     <div class="input-group mb-3">
                       <span class="input-group-text">Kr</span>
-                      <input class="form-control" type="number" min="0" max="999999" v-model="item.limit" />
+                      <input class="form-control" type="number" min="0" step="1" v-model="item.limit" />
                     </div>
                   </div>
                 </div>
@@ -100,8 +115,8 @@
           </div> <!-- items -->
         </div> <!-- col -->
 
-        <div class="col-xl-5">
-          <div class="card text-bg-light mb-3">
+        <div class="xl:col-5">
+          <div class="card bg-2 mb-3">
             <h6 class="card-header">Ads</h6>
             <div class="card-body">
               <p>Looking for software for repair shops? <a href="https://www.repero.me" target="_blank">Repero.me</a> can create invoices and send your customers emails or text messages, manage inventory and more</p>
@@ -111,18 +126,40 @@
         </div>
       </div> <!-- end row -->
 
-      <div class="text-muted">
-        <hr />
-        <i>This does NOT calculate vacation (ísl: 'orlof') nor what you pay your union (ísl: 'stéttarfélag').</i>
-        <h6>TODO:</h6>
-        <input type="checkbox" name="" id="" value="" disabled="disabled" />
-        Calculate vacation 'orlof' - can be 24-30 days.
-        <br />
-        <input type="checkbox" name="" id="" value="" disabled="disabled" />
-        Calculate union 'Verkalýdsfélag'
-      </div>
+      <section class="my-4" aria-labelledby="examples-heading">
+        <h2 id="examples-heading">Iceland salary after tax: 2026 examples</h2>
+        <p>These monthly examples use a 4% employee pension contribution and 72,492 ISK personal tax credit, with no other deductions. Your payslip may differ.</p>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <caption>Monthly amounts in ISK, using the calculator's default assumptions.</caption>
+            <thead><tr><th scope="col">Gross salary</th><th scope="col">Pension</th><th scope="col">Income tax</th><th scope="col">Estimated remaining pay</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">600,000</th><td>24,000</td><td>113,953</td><td>462,047</td></tr>
+              <tr><th scope="row">800,000</th><td>32,000</td><td>186,894</td><td>581,106</td></tr>
+              <tr><th scope="row">1,000,000</th><td>40,000</td><td>259,834</td><td>700,166</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-      <footer class="my-5">
+      <section class="my-4" aria-labelledby="rates-heading">
+        <h2 id="rates-heading">How Iceland's income tax brackets work</h2>
+        <p>Tax applies progressively to taxable salary after deductible employee pension contributions. Crossing a threshold does not apply the higher rate to your entire salary.</p>
+        <table class="table table-bordered">
+          <caption>2026 monthly withholding brackets. <a href="https://www.skatturinn.is/english/individuals/tax-brackets/2026">Source: Skatturinn</a>.</caption>
+          <thead><tr><th scope="col">Taxable monthly income (ISK)</th><th scope="col">Rate</th></tr></thead>
+          <tbody>
+            <tr><td>Up to 498,122</td><td>31.49%</td></tr>
+            <tr><td>Above 498,122 up to 1,398,450</td><td>37.99%</td></tr>
+            <tr><td>Above 1,398,450</td><td>46.29%</td></tr>
+          </tbody>
+        </table>
+        <h3>Does this include pension and union fees?</h3>
+        <p>Employee pension is included, defaulting to 4% of gross pay. <a href="https://island.is/en/salary">Ísland.is explains the minimum employee contribution</a>. Eligible pension contributions reduce taxable salary; see <a href="https://www.skatturinn.is/english/individuals/allowances-deductions-and-credits/">Skatturinn's deductions guidance</a>.</p>
+        <p>Union fees (<span lang="is">stéttarfélag</span>), holiday-pay arrangements (<span lang="is">orlof</span>), benefits, other deductions and annual assessment adjustments are excluded. Municipal differences and individual circumstances can affect final tax. This tool estimates ordinary employment income, not self-employment, capital gains or special child-income rules.</p>
+      </section>
+
+      <footer class="my-5 text-center">
         This code is <a href="https://www.github.com/viktorsmari/tax-calculator/" target="_blank">free and open source.</a>
         <br>
 
@@ -130,5 +167,6 @@
       </footer>
     </div> <!-- cont -->
   </body>
+  <script src="calculator.js"></script>
   <script type="text/javascript" charset="utf-8" src="index.js"></script>
 </html>
